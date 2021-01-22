@@ -1,0 +1,87 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[top = 2cm, bottom = 2cm, left = 2cm, right = 2cm]{geometry}
+
+% Mathematical packages
+\usepackage{amsmath, amssymb, amsfonts, amsthm}
+\usepackage{bm}
+
+% Graphical packages
+\usepackage{graphicx}
+\graphicspath{{graphics/}}
+\usepackage{xcolor}[dvipsnames]
+
+% Fonts
+\usepackage{libertine}
+\usepackage[libertine]{newtxmath}
+%\usepackage[utf8]{inputenc}
+
+% Endnotes, enumeration
+\usepackage{endnotes}
+\usepackage{enumitem}
+
+% Parts, sections, subsections ...
+\usepackage{titlesec}
+\titleformat{\section}{\normalfont\huge\bfseries}{Chapter \thesection}{-5em}{\Huge\newline}
+
+% fbox
+
+% Theorem, definition, lemma, postulate ....
+\newcounter{numchapter}
+
+\newcounter{numtheorem}
+
+\newcommand{\theorem}[2]{
+    \refstepcounter{numtheorem}
+    \color{blue}
+    \noindent\fbox{\textbf{\thenumchapter.\thenumtheorem }} \textbf{#1:}
+    \color{black}
+    #2\bigskip
+}
+
+\newcommand{\definition}[2]{
+    \refstepcounter{numtheorem}
+    \color{green}
+    \noindent\fbox{\textbf{\thenumchapter.\thenumtheorem }} \textbf{#1:}
+    \color{black}
+    #2\bigskip
+}
+
+\renewcommand{\proof}[1]{%
+    \noindent\textbf{Proof:}~#1%
+    \newline%
+    \strut\hfill%
+    \blacksquare%
+    \bigskip%
+}%
+
+\renewcommand\d{\mathrm d}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+
+\setlength\parindent{0pt}
+
+\title{Classical Mechanics}
+\author{Discord Physics \\ organized by R\'{o}bert Jur\v{c}o}
+\date{In developement - 2021}
+
+
+\begin{document}
+
+\maketitle
+~\newpage
+\tableofcontents
+~\newpage
+
+\part{Newtonian mechanics}
+\refstepcounter{numchapter}
+\include{Chapter_R}
+
+\part{Lagrangian and Hamiltonian mechanics}
+
+\part{Fluid mechanics}
+
+
+\end{document}

@@ -1,0 +1,32 @@
+\section{Kinematics of a Rigid body}
+
+\\~\\
+
+\definition{Definition}{\Emph{Rigid body} .....}
+
+\theorem{Chasles theorem}{General motion of a rigid body has six degrees of freedom, three which represents translational motion of one given point of the rigid body, and three describing rotation around the same point.}
+
+\proof{Here will come the proof.}
+
+\definition{Definition}{\Emph{Basis fixed in space} .....}
+
+\definition{Definition}{\Emph{Co-rotating basis} .....}
+
+\subsection{Angular velocity}
+
+Let $\{\bm e_i\}$ be a basis fixed in space, $\{\bm e'_i(t)\}$ a basis co-rotating with a rigid body. As a co-rotating ortonormal basis is only rotated with respect to a fixed ortonormal basis, we can write $\bm e'_i(t)=A_{ik}(t)\bm e_k$. Consider now an arbitrary, time dependent vector $\bm w=\bm w(t)$ and express it in both bases, $\bm w(t)=w_i(t)\bm e_i=w'_i(t)\bm e'_i(t)$. Time derivative of $\bm w(t)$ with respect to the inertial fixed basis but expressed in the co-rotating bassis is
+\begin{equation}
+    \frac{\d\bm w}{\d t}=\frac{\d w'_i}{\d t}\bm e'_i+w'_i\frac{\d\bm e'_i}{\d t}=\frac{\d w'_i}{\d t}\bm e'_i+w'_i\frac{\d A_{ik}}{\d t}\bm e_k=\frac{\d w'_i}{\d t}\bm e'_i+w'_i\frac{\d A_{ik}}{\d t}A_{jk}\bm e'_j.
+\end{equation}
+Therefore, we can formulate a definition:\\
+
+\definition{Definition}{
+    Let $\{\bm e_i\}$ be an ortonormal basis\footnote{Both bases are bases of $V$, what is defined as a vector space over $\R$, such that $\dim V=3$.} fixed in space, $\{\bm e'_i(t)\}$ an ortonormal basis co-rotating with a rigid body and $A_{ij}(t)\in C^1\left(\R\right)$ elements of orthogonal matrix\footnote{$A^t=A^{-1}$ and $A_{ik}A_{jk}=\delta_{ij}$} such that $\bm e'_i(t)=A_{ij}(t)\bm e_j$. Then the \emph{tenzor of angular velocity} $\Omega:V\times V\to\R$ is defined as
+    \begin{equation}
+        \Omega=\frac{\d A}{\d t}A^t,
+    \end{equation}
+    with elements
+    \begin{equation}
+        \Omega=\frac{\d A_{ik}}{\d t}A_{jk}.
+    \end{equation}
+}
