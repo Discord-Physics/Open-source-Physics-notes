@@ -1,0 +1,373 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[top = 2cm, bottom = 2cm, left = 2cm, right = 2cm]{geometry}
+
+% Mathematical packages
+\usepackage{amsmath, amssymb, amsfonts, amsthm}
+\usepackage{bm}
+
+% Graphical packages
+\usepackage{graphicx}
+\graphicspath{{graphics/}}
+\usepackage{xcolor}
+\definecolor{darkgreen}{rgb}{0.04, 0.30, 0.00}
+
+% Fonts
+\usepackage{libertine}
+\usepackage[libertine]{newtxmath}
+%\usepackage[utf8]{inputenc}
+
+% Endnotes, enumeration
+\usepackage{endnotes}
+\usepackage{enumitem}
+
+% Parts, sections, subsections ...
+\usepackage{titlesec}
+\titleformat{\section}{\normalfont\huge\bfseries}{Chapter \thesection}{-5em}{\Huge\newline}
+
+% fbox
+
+% Theorem, definition, lemma, postulate ....
+\newcounter{numtheorem}
+
+\newcommand{\theorem}[2]{
+    \refstepcounter{numtheorem}
+    \color{blue}
+    \noindent\fbox{\textbf{1.\thenumtheorem }} \textbf{#1:}
+    \color{black}
+    #2\newline
+}
+
+\newcommand{\definition}[2]{
+    \refstepcounter{numtheorem}
+    \color{darkgreen}
+    \noindent\fbox{\textbf{1.\thenumtheorem }} \textbf{#1:}
+    \color{black}
+    #2\newline
+}
+
+\newcommand{\remark}[2]{
+    \refstepcounter{numtheorem}
+    \color{orange}
+    \noindent\fbox{\textbf{1.\thenumtheorem }} \textbf{#1:}
+    \color{black}
+    #2\newline
+}
+
+\newcommand{\problem}[2]{
+    \refstepcounter{numtheorem}
+    \color{red}
+    \noindent\fbox{\textbf{1.\thenumtheorem }} \textbf{#1:}
+    \color{black}
+    #2\newline
+}
+
+\newcommand{\exmpl}[2]{
+    \refstepcounter{numtheorem}
+    \color{green}
+    \noindent\fbox{\textbf{1.\thenumtheorem }} \textbf{#1:}
+    \color{black}
+    #2\newline
+}
+
+\renewcommand{\proof}[1]{%
+    \noindent\textbf{Proof:}~#1%
+    \newline%
+    \strut\hfill%
+    $\square$%
+    \newline%
+}%
+
+\renewcommand\d{\mathrm d}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+
+\setlength\parindent{0pt}
+
+\begin{document}
+
+\tableofcontents
+~\newpage
+
+\section{Topology}
+
+The notion of topology gives sense to the intuitive ideas of nearness and continuity. It appears that there are equivalent ways of defining a topology: In terms of open sets, or of closed sets or using as primitive notion the notion of neighbourhood of a point.
+
+\subsection{Preliminaries}
+
+\theorem{De Morgan's laws}{
+    Let $A,B\subset X$. Then
+    \[C_X\left(A\cup B\right)=C_X A\cap C_X B\]
+    \[C_X\left(A\cap B\right)=C_X A\cup C_X B\]
+    where $C_XA=\{x\in X|x\notin A\}$ denotes the complement of $A$.
+}
+\\
+\proof{
+To proof that $C_X\left(A\cup B\right)=C_X A\cap C_X B$ is completed in 2 steps by proving both $C_X\left(A\cup B\right)\subseteq C_X A\cap C_X B$ and $C_X\left(A\cup B\right)\supseteq C_X A\cap C_X B$.\\\\
+\textbf{Part 1:}
+Let $x\in C_X(A\cap B)$, then $x\notin A\cap B$.
+Because $A\cap B=\{\,y\,|\,y\in A\wedge y\in B\,\}$, it must be the case that $x\notin A$ or $x\notin B$.
+If $x\notin A$, then $x\in C_XA$, so $x\in C_XA\cup C_XB$.
+Similary, if $x\notin B$, then $x\in C_XB$, so $x\in C_XA\cup C_XB$.
+Hence, $\forall x: x\in C_X(A\cap B)\Rightarrow x\in C_XA\cup C_XB$, that is, $C_X\left(A\cup B\right)\subseteq C_X A\cap C_X B$.\\\\
+\textbf{Part 2:}
+To prove the reverse direction, let $x\in C_XA\cup C_XB$, and for contradiction assume $x\notin C_X(A\cap B)$. Under that assumption, it must be the case that $x\in A\cap B$, so it follows that $x\in A$ and $x\in B$, and thus $x\notin C_XA$ and $x\notin C_XB$. However, that means $x\notin C_XA\cup C_XB$, in contradiction to the hypothesis that $x\in C_XA\cup C_XB$ therefore, the assumption $x\notin C_X(A\cap B)$ must not be the case, meaning that $x\in C_X(A\cap B)$.
+Thus, $\forall x: x\in C_XA\cup C_XB\Rightarrow x\in C_X(A\cap B)$ , that is, $C_X\left(A\cup B\right)\supseteq C_X A\cap C_X B$.\\
+}
+
+\subsection{Topological spaces}
+
+\definition{Definition}{
+    A \textbf{topological space} is a non-empty set $X$ together with a family $\tau=\left(U_i\;|\;\forall i\in I, U_i\subset X\right)$\\("of subsets of $X$") satisfying the following axioms:
+
+    \begin{enumerate}
+        \item $\emptyset,X\in\{\tau\}$
+        \item The intersection of any finite number of sets in $\tau$ belongs to $\tau$, i.e.
+        \[
+            J\text{ finite },J\subset I\Rightarrow\bigcap_{i\in J}U_i\in\tau
+        \]
+        \item The union of any number of sets in $\tau$ belongs to $\tau$, i.e.
+        \[
+            J\subset I\Rightarrow\bigcup_{i\in J}U_i\in\tau
+        \]
+    \end{enumerate}
+    The elements of $\tau$ are called $\tau$-open sets, or simply open sets in $X$. The pair $(X, \tau)$ is called a topological space.
+}
+
+\exmpl{Example}{
+    The family $\{\tau\}=\{\emptyset,X\}$, consisting of $\emptyset$ and $X$ alone is itself a topology called the \textbf{indiscrete topology}. $\{\emptyset,X\}$ is then called an indiscrete topological space.
+}
+
+\exmpl{Example}{
+    Let $\tau=P\left(X\right)$ denote the family of all subsets of $X$ (power set). Observe that $P\left(X\right)$ satisfies the axioms 1.-3. for a topology on $X$. This topology is called the \textbf{discrete topology}, the pair $\{X,P\left(X\right)\}$ is called a discrete topological space.
+}
+
+\exmpl{Example}{
+    Let $X=\R$ be the real line. A topology on $\R$ can be defined as follows: For any $x\in\R$, consider the open intervals $\left(a, b\right)$ containing $x$, then $\tau$ is the family
+    \[
+        \tau=\{U_i=(a_i,b_i)\;|\;a_i,b_i\in\R\;,a_i\leq b_i\}
+    \]
+    If $a_i=b_i$, then $(a_i,b_i)=\emptyset$. This topology is referred as the \textbf{usual topology} on $\R$. Similarly, one can define the usual topology on $\R^n$.
+}
+
+\definition{Definition}{
+     Let $(X, \tau)$ be a topological space. A subset $A$ of $X$ is \textbf{closed} if its complement $C_XA$ is an open set.
+}
+
+\theorem{Theorem}{
+The family $\overline\tau=\left(A_i\;|\;\forall i\in I\right)$ of closed subsets of $X$ satisfying the following conditions:
+
+\begin{enumerate}
+    \item $\emptyset$ and $X$ are closed sets, i.e. $\emptyset,X\in\overline\tau$
+    \item The union of any finite number of sets in $\overline\tau$ belongs to $\overline\tau$, i.e.
+    \[
+        J\text{ finite },J\subset I\Rightarrow\bigcup_{i\in J}U_i\in\overline\tau
+    \]
+    \item The intersection of any number of sets in $\overline\tau$ belongs to $\overline\tau$, i.e.
+    \[
+        J\subset I\Rightarrow\bigcap_{i\in J}U_i\in\overline\tau
+    \]
+\end{enumerate}
+We denote this topological place $(X, \overline\tau)$.
+}
+\\
+\proof{
+ Follows from De'Morgan laws and definition of the topological space of the open sets.
+}
+
+\subsection{Neighbourhood spaces}
+
+\definition{Definition}{
+    Let $x\in X$ be a point in a topological space $X$. Any subset $U$ of $X$ containing an open set $A$ such that $x\in A$ is called a \textbf{neighbourhood} of $x$ denoted by $U=U(x)$. In particular, any open set $U$ is a neighbourhood of each of its points. The class of all neighbourhoods of $x\in X$, denoted by $\mathfrak B(x)$, is called the \textbf{fundamental neighbourhood system} of $x$.
+}
+
+\subsection{Types of points}
+
+\definition{Definition}{
+    Let $(X,\tau)$ be a topological space and $A\subset X$. A point $x\in A$ is said to be an \textbf{isolated point} of $A$ if there exists an open set containing $x$ which contains no other points of $A$.
+}
+
+\definition{Definition}{
+    Let $(X,\tau)$ be a topological space and $A\subset X$. A point $x\in A$ is said to be an \textbf{accumulation point} of $A$ if every open set containing $x$ contains at least one other point from $A$. (Basically the opposite to the isolated point of $A$).
+}
+
+\definition{Definition}{
+    Let $(X,\{\tau\})$ be a topological space and $A\subset X$. A point $x\in X$ is said to be an \textbf{adherent point} of $A$ if every neighbourhood of $x$ contains at least one other point of $A$.
+}
+
+\definition{Definition}{
+    Let $(X,\tau)$ be a topological space and $A\subset X$. A point $x\in X$ is said to be a \textbf{limit point} of $A$ if every neighbourhood of $x$ contains infinitely many points of $A$.
+}
+
+\definition{Definition}{
+    Let $(X,\tau)$ be a topological space and $A\subset X$. A point $x\in X$ is said to be a \textbf{condensation point} of $A$ if every neighbourhood of $x$ contains uncountable1 many points of $A$.
+}
+
+\definition{Definition}{
+    Let $(X,\tau)$ be a topological space and $A\subset X$. A point $x\in X$ is said to be a \textbf{interior point} of $A$ if there exists an open set $U$ containing $x$ that is completely a subset of $A$.
+}
+
+\definition{Definition}{
+    Let $(X,\tau)$ be a topological space and $A\subset X$. A point $x\in X$ is said to be a \textbf{boundary point} of $A$ if every neighbourhood of $x$ contains at least one point of $A$ and at least one point of $C_XA$.
+}
+
+\remark{Remark}{
+    Isolated and accumulation points of $A$ are always in $A$, while adherent, limit and condensation points don't have to be in $A$. If a point is isolated it can't be accumulated and vice versa. Every interior point of $A$ is also a condensation point of $A$, every condensation point of $A$ is also a limit point of $A$, and every limit point of $A$ is also an adherent point of $A$. Isolated and accumulation points are both adherent but can't be limit or condensation points.
+}
+
+\theorem{Theorem}{
+    Union of set of interior points and boundary points is a set of adherent points.
+}
+
+\exmpl{Example}{
+    The set $\N$ in usual topology on $\R$ has no accumulation point, i.e. all points of $\N$ are isolated.
+}
+
+\exmpl{Example}{
+    The set $A=(0,1]\cup\{2\}\subset\R$ which has the usual topology on $\R$ has limit point every point of the interval $[0,1]$. Notice that 2 is an isolated nonlimit point and 0 is a limit point but does not belongs to $A$.
+}
+
+\definition{Definition}{
+    The set of accumulation points of $A$, denoted by $A'$ is called the \textbf{derived set} of $A$.
+}
+
+\subsection{Closure}
+
+\definition{Definition}{
+    Let $(X,\tau)$ be a topological space and $A\subset X$. A point $x\in X$ is said to be an \textbf{adherent point} of $A$ if every neighbourhood of $x$ contains at least one other point of $A$.
+}
+
+\definition{Definition}{
+    Let $(X,\tau)$ be a topological space and $A\subset X$. The set of all adherent points of $A$, denoted by $\overline A$, is called a \textbf{closure} of $A$.
+}
+
+\theorem{Theorem}{
+    Let $(X,\tau)$ be a topological space and $A\subset X$. The closure of a set $A$ is the intersection of all closed supersets of $A$ and $\overline A$ is the smallest closed superset of $A$.
+}
+
+\proof{
+    Let $(U|i\in I)$ be the family of all closed supersets of $A$. If $x\in\overline A$, then $x$ is adherent point and belongs to a closed superset of $A$, i.e. $\exists i_0\,:\,x\in U_{i_0}$. Hence $x\in\bigcap_i U_i$ and $\overline A\subset\bigcap_i U_i$. Conversely, $y\in\bigcap_i U_i$, implies $y\in U_i$ for every $i$. Thus $y$ is an adherent point, i.e $y\in\overline A$ and if we take all such $y$ we have $\bigcap_i U_i\subset\overline A$. Accordingly $\overline A=\bigcap_i U_i$, while not forgetting axiom: intersection of closed sets is a closed set, hence $\overline A$ is closed. If $U$ is a closed superset of $A$, it is in the family $(U|i\in I)$ and because $\closed A=\bigcap_i U_i$ we have $\overline A\subset U$.
+}
+
+\theorem{Theorem}{
+    Let $(X,\tau)$ be a topological space and $A\subset X$. Every point of a closed set $A$ is its adherent point, i.e $A=\overline A$.
+}
+
+\proof{
+    Because $\overline A$ is the intersection of all closed supersets of $A$ we have $A\subset\overline A$. But if $A$ is closed and $\overline A$ is the smallest closed superset of $A$ then $\overline A\subset A$. Therefore $A=\overline A$.
+}
+
+\subsection{Interior}
+
+\definition{Definition}{
+    Let $(X,\tau)$ be a topological space and $A\subset X$. A point $x\in X$ is said to be a \textbf{interior point} of $A$ if there exists an open set $U$ containing $x$ that is completely a subset of $A$.
+}
+
+\definition{Definition}{
+    Let $(X,\tau)$ be a topological space and $A\subset X$. The set of all interior points of $A$, denoted by $\mathring A$, is called an \textbf{interior} of $A$.
+}
+
+\theorem{Theorem}{
+    Let $(X,\tau)$ be a topological space and $A\subset X$. The interior of a set $A$ is the union of all open subsets of $A$ and $\mathring A$ is the largest open subset of $A$.
+}
+
+\proof{
+    Let $(U|i\in I)$ be the family of all open subsets of $A$. If $x\in\mathring A$, then $x$ is interior point and belongs to an open subset of $A$, i.e. $\exists i_0\,:\,x\in U_{i_0}$. Hence $x\in\bigcup_i U_i$ and $\mathring A\subset\bigcup_i U_i$. Conversely, $y\in\bigcup_i U_i$, implies $y\in U_i$ for some $i$. Thus $y$ is an interior point, i.e $y\in\mathring A$ and if we take all such $y$ we have $\bigcup_i U_i\subset\mathring A$. Accordingly $\mathring A=\bigcup_i U_i$, while not forgetting axiom: uion of open sets is an open set, hence $\mathring A$ is open. If $U$ is an open subset of $A$, it is in the family $(U|i\in I)$ and because $\mathring A=\bigcup_i U_i$ we have $U\subset\mathring A$.
+}
+
+\theorem{Theorem}{
+    Let $(X,\tau)$ be a topological space and $A\subset X$. Every point of an open set $A$ is its interior point, i.e $A=\mathring A$.
+}
+
+\proof{
+    Because $\mathring A$ is the union of all open subsets of $A$ we have $\mathring A\subset A$. But if $A$ is open and $\mathring A$ is the largest open subset of $A$ then $A\subset\mathring A$. Therefore $A=\mathring A$.
+}
+
+\subsection{Boundary}
+
+\definition{Definition}{
+    Let $(X,\tau)$ be a topological space and $A\subset X$. A point $x\in X$ is said to be a \textbf{boundary point} of $A$ if every neighbourhood of $x$ contains at least one point of $A$ and at least one point of $C_XA$.
+}
+
+\definition{Definition}{
+    Let $(X,\tau)$ be a topological space and $A\subset X$. The set of all boundary points of $A$, denoted by $\partial A$, is called a \textbf{boundary} of $A$.
+}
+
+\theorem{Theorem}{
+    Let $(X,\tau)$ be a topological space and $A\subset X$. The set $A$ is said to be closed subset of $X$ $\Leftrightarrow$ $A$ contains all of its boundary points.
+}
+
+\proof{
+    First assume $A$ is closed. Assume, for a contradiction, that there is $x\in\partial A$ such that $x\notin A$. Then $x\in C_XA$ which is open so there exists an open set $U$ containing $x$ that is entirely in $C_XA$. Then this set contains no points in $A$ contradicting the definition of the boundary point $x$.\\\\
+    Now assume that all $x$ from $\partial A$ are also in $A$. Assume, for a contradiction, that $A$ is open. If $A$ is open, then for every point of $A$ exists an open set $U$ eentirely in $A$. But then there is no point satisfying the definition of boundary point and we arrive to contradiction.
+}
+
+\theorem{Theorem}{
+    Let $(X,\tau)$ be a topological space and $A\subset X$. The set $A$ is said to be open subset of $X$ $\Leftrightarrow$ $A$ does not contain any of its boundary points.
+}
+
+\proof{
+    If $A$ is open, then for every point of $A$ exists an open set $U$ eentirely in $A$. But then there is no point satisfying the definition of boundary point, hence $A$ does not contain any of its boundary points.\\\\
+    Now assume that $A$ does not contain any of its boundary points. Assume, for a contradiction, that $A$ is closed. But we already proved that closed set contains all of its boundary points, therefore we arrive to contradiction.
+}
+
+\theorem{Theorem}{
+    Let $(X,\{\tau\})$ be a topological space and $A\subset X$. The boundary of a set $A$ is given by $\partial A=\overline A\backslash\mathring A$. Furthermore $\overline A=\mathring A\cup\partial A$ and  Furthermore $A=\partial A\Leftrightarrow\mathring A=\emptyset$.
+}
+
+\subsection{Continuous maps}
+
+\definition{Definition}{
+    Let $(X_i,\tau_i)$, $i=1,2$, be topological spaces. A map $f:X_1\to X_2$ is \textbf{continuous} at a point $x_0\in X_1$ if for any neighborhood $V(f(x_0))$ of $f(x_0)$ there exists a neighborhood $U(x_0)$ of $x_0$ such that $f(U)\subset V$, i.e.
+    \[
+        f\text{ is continuous at }x_0\in X_1\Leftrightarrow\forall V(f(x_0))\,\exists U(x_0)\,:\,f(U(x_0))\subset V(x_0).
+    \]
+}
+
+\definition{Definition}{
+    Let $(X_i,\tau_i)$, $i=1,2$, be topological spaces. A map $f:X_1\to X_2$  is called an \textbf{open map} if, for any open set $U\subset X_1$, $f(U)$ is an open set in $X_2$.
+}
+
+\definition{Definition}{
+    Let $(X_i,\{\tau\}_i)$, $i=1,2$, be topological spaces and $f:X_1\to X_2$ a map. Let $U\in X_2$ and denote $f^{-1}(U)=\{x\in X_1|f(x)\in U\}$.
+}
+
+\definition{Definition}{
+    Two topological spaces $(X_i,\{\tau\}_i)$, $i=1,2$, are called \textbf{homeomorphic} if there exists a bijective map $f:X_1\to X_2$ such that $f$ and $f^{-1}$ are continuous. The map $f$ is called a \textbf{homeomorphism}.
+}
+
+\subsection{Properties of topological spaces}
+
+\definition{Definition}{
+    Let $(X,\tau)$ be a topological space. $(X,\tau)$ is a \textbf{Hausdorff space} if it satisfies the following additional axiom: For every pair of distinct points $x_1,x_2\in X$ there are disjoint neighborhoods $U_1(x_1),U_2(x_2)$, i.e:
+    \[
+        \forall x_1,x_2\in X, x_1\neq x_2,\;\exists U_1(x_1),U_2(x_2)\,:\,U_1(x_1)\cap U_2(x_2)=\emptyset.
+    \]
+}
+
+\definition{Definition}{
+    Let $(X,\tau)$ be a topological space. A \textbf{base} for the topology $\tau$ of a topological space $(X, \tau)$ is a family $\mathfrak B$ of open subsets of $X$ such that every open set is equal to a union of sets from $\mathfrak B$.
+}
+
+\definition{Definition}{
+    A topological space $(X,\tau)$ is called \textbf{second countable}, if there exist a countable base $\mathfrak B$ for the topology $\tau$.
+}
+
+\definition{Definition}{
+    Let $(X,\tau)$ be a topological space. A family $\mathfrak U =(A_i|i\in I)$ of subsets of $X$ is called a \textbf{cover} of $X$, if
+    \[
+        \forall i\in I:\,A_i\neq\emptyset
+    \]
+    \[
+        X=\bigcup_{i\in I}A_i
+    \]
+    If, for $J\subset I$, $X=\bigcup_{j\in J}A_j$, then $(A_j|j\in J)$ is called a \textbf{subcover}. In particular it is a \textbf{finite subcover} if the index set $J$ is finite.
+}
+
+\definition{Definition}{
+    A topological space $(X,\tau)$ is \textbf{compact}, if it is a Hausdorff space and if every open cover of $X$ has a finite subcover.
+}
+
+\end{document}

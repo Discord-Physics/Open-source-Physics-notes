@@ -1,0 +1,298 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[top = 2cm, bottom = 2cm, left = 2cm, right = 2cm]{geometry}
+
+% Mathematical packages
+\usepackage{amsmath, amssymb, amsfonts, amsthm}
+\usepackage{bm}
+
+% Graphical packages
+\usepackage{graphicx}
+\graphicspath{{graphics/}}
+\usepackage{xcolor}
+\definecolor{darkgreen}{rgb}{0.04, 0.30, 0.00}
+
+% Fonts
+\usepackage{libertine}
+\usepackage[libertine]{newtxmath}
+%\usepackage[utf8]{inputenc}
+
+% Endnotes, enumeration
+\usepackage{endnotes}
+\usepackage{enumitem}
+
+% Parts, sections, subsections ...
+\usepackage{titlesec}
+\titleformat{\section}{\normalfont\huge\bfseries}{Chapter \thesection}{-5em}{\Huge\newline}
+
+% fbox
+
+% Theorem, definition, lemma, postulate ....
+\newcounter{numtheorem}
+
+\newcommand{\theorem}[2]{
+    \refstepcounter{numtheorem}
+    \color{blue}
+    \noindent\fbox{\textbf{1.\thenumtheorem }} \textbf{#1:}
+    \color{black}
+    #2\newline
+}
+
+\newcommand{\definition}[2]{
+    \refstepcounter{numtheorem}
+    \color{darkgreen}
+    \noindent\fbox{\textbf{1.\thenumtheorem }} \textbf{#1:}
+    \color{black}
+    #2\newline
+}
+
+\newcommand{\problem}[2]{
+    \refstepcounter{numtheorem}
+    \color{red}
+    \noindent\fbox{\textbf{1.\thenumtheorem }} \textbf{#1:}
+    \color{black}
+    #2\newline
+}
+
+\renewcommand{\proof}[1]{%
+    \noindent\textbf{Proof:}~#1%
+    \newline%
+    \strut\hfill%
+    $\square$%
+    \newline%
+}%
+
+\renewcommand\d{\mathrm d}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+
+\setlength\parindent{0pt}
+
+\begin{document}
+
+\tableofcontents
+~\newpage
+
+\subsection{Required knowledge}
+
+\begin{enumerate}
+    \item Inner product $(\cdot,\cdot)$, norm $||\cdot||$.
+    \item Hilbert space $H$, Banach space.
+\end{enumerate}
+
+\newpage
+\section{Abstract Fourier series}
+
+\subsection{Complete Orthogonal System}
+
+\definition{Definition}{Let $H$ be a Hilbert space equiped with norm $||\cdot||_H=\sqrt{(\cdot,\cdot)_H}$ and $\{\Phi_\alpha\}_{\alpha\in I}$ be a system of it's elements where $I$ is a set of indicies.
+\begin{itemize}
+    \item We say that $\{\Phi_\alpha\}_{\alpha\in I}$ is an {\color{darkgreen}\emph{orthogonal system}} if $\forall \alpha\in I:\Phi_\alpha\neq 0$ and $\forall\alpha,\beta,\,\alpha\neq\beta:\left(\Phi_\alpha,\Phi_\beta\right)_H=0$.
+    \item We say that $\{\Phi_\alpha\}_{\alpha\in I}$ is an {\color{darkgreen}\emph{orthonormal system}} if it's an orthogonal system and $\forall\alpha:\left(\Phi_\alpha,\Phi_\alpha\right)_H=1$.
+    \item We say that $\{\Phi_\alpha\}_{\alpha\in I}$ is an {\color{darkgreen}\emph{complete system}} if $\forall\alpha\in I,\,\forall\Phi\in H:\left(\Phi,\Phi_\alpha\right)_H=0\Leftrightarrow\Phi=0$.
+\end{itemize}
+}
+
+\definition{Definition}{A subset $A$ of a normed topological space $\left(X,||\cdot||_X\right)$ is called {\color{darkgreen}\emph{dense}} in $X$ if $\forall\epsilon>0,\,\forall x\in X,\,\forall y\in A:||y-x||\leq\epsilon$.
+}
+
+\definition{Definition}{We say that $\left(X,||\cdot||_X\right)$ is a {\color{darkgreen}\emph{separable set}} if $\exists A\subset X$, where $A$ countable and dense in $X$.
+}
+
+\definition{Definition}{We say that Hilbert or Banach space $H$ is a {\color{darkgreen}\emph{separable}} if $\exists\{\Phi_n\}_{n=1}^\infty,\forall\epsilon>0,\forall\Phi\in H,\exists\Phi_n:||\Phi-\Phi_n||_H<\epsilon$, where $\exists\{\Phi_n\}_{n=1}^\infty$ is a counatble system in $X$.
+}
+
+\subsection{Abstract Fourier series}
+
+\theorem{Theorem (About the best approximation)}{Let $H$ be a Hilbert space, $\{\Phi_k\}_{k=1}^\infty\subset H$ be an orthonormal system, $f\in H$, $\{c_k\}_{k=1}^\infty:=\{\left(f,\Phi_k\right)_H\}_{k=1}^\infty$ and $\{a_k\}_{k=1}^\infty\subset\R$. $\forall n\in\N$ let $s_n:=\sum_{k=1}^nc_k\Phi_k$ and $t_n:=\sum_{k=1}^na_k\Phi_k$. Then
+\begin{enumerate}
+    \item $\forall n\in N: ||f-s_n||_H\leq||f-t_n||_H$,
+    \item For given $n\in N: ||f-s_n||_H\leq||f-t_n||_H\Leftrightarrow\forall k\in\{1,\ldots,n\}:a_k=c_k$,
+    \item $\forall n\in N: ||f-s_n||_H\leq||f-t_n||_H\Leftrightarrow\forall k\in\N:a_k=c_k$.
+\end{enumerate}
+}
+\proof{
+\[
+\begin{split}
+    ||f-t_n||_H^2&=\left(f-\sum_{k=1}^na_k\Phi_k,f-\sum_{k=1}^na_k\Phi_k\right)_H\\
+    &=\left(f,f\right)_H-\left(\sum_{k=1}^na_k\Phi_k,f\right)_H-\left(f,\sum_{k=1}^na_k\Phi_k\right)_H+\sum_{k=1}^n\sum_{l=1}^na_k\bar a_l\left(\Phi_k,\Phi_l\right)_H\\
+    &=||f||_H^2-\sum_{k=1}^na_k\bar c_k-\sum_{k=1}^n\bar a_kc_k+\sum_{k=1}^n|a_k|^2\\
+    &=||f||_H^2-\sum_{k=1}^n|c_k|^2+\sum_{k=1}^n|c_k|^2-\sum_{k=1}^na_k\bar c_k-\sum_{k=1}^n\bar a_kc_k+\sum_{k=1}^n|a_k|^2\\
+    &=||f-s_n||_H^2+\sum_{k=1}^n|c_k-a_k|^2\\
+\end{split}
+\]
+}
+\newpage
+\definition{Definition}{
+Let $H$ be a Hilbert space, $\{\Phi_k\}_{k=1}^\infty\subset H$ be an orthonormal system, $f\in H$ and $\{c_k\}_{k=1}^\infty:=\{\left(f,\Phi_k\right)_H\}_{k=1}^\infty$. Then
+\[
+        \sum_{k=1}^\infty c_k\Phi_k
+\]
+is called an {\color{darkgreen}\emph{abstract Fourier series}} with respect to the othonotmal system $\{\Phi_k\}_{k=1}^\infty$. Number $c_k$ is called {\color{darkgreen}\emph{$k$-th Fourier coeficient}}. Abstract Fourier series constructed by this fenition will be denoted as
+\[
+        f\sim\sum_{k=1}^\infty c_k\Phi_k.
+\]
+}
+
+\theorem{Theorem (Bessel inequality and Parseval equality)}{
+Let $H$ be a Hilbert space, $\{\Phi_k\}_{k=1}^\infty\subset H$ be an orthonormal system, $f\in H$, $f\sim\sum_{k=1}^\infty c_k\Phi_k$ and $s_n:=\sum_{k=1}^n c_k\Phi_k$ for all $n\in\N$. Then
+\[
+    \sum_{k=1}^\infty|c_k|^2<\infty\text{  and  }\sum_{k=1}^\infty|c_k|^2\leq||f||_H^2\qquad\text{(Bessel inequality),}
+\]
+and
+\[
+    \sum_{k=1}^\infty|c_k|^2=||f||_H^2\Leftrightarrow\lim_{n\to\infty}||f-s_n||_H=0\qquad\text{(Parseval equality).}
+\]
+}
+\proof{
+Let $n\in\N$. In the proof of theorem about the best approximation let $a_k=c_k$, then
+\[
+    0\leq||f-s_n||_H^2=||f||_H^2-\sum_{k=1}^\infty|c_k|^2.
+\]
+Therefore the series $\sum_{k=1}^\infty|c_k|^2$ is bounded by $||f||_H^2$ and by Bolzano-Weierstrass theorem is convergent\footnote{This is not right, it's more like nonegative bounded sequence is convergent while Bolzano-Weierstrass theorem says that every bounded sequence has a convergent subsequence.}. From the equation $||f-s_n||_H^2=||f||_H^2-\sum_{k=1}^\infty|c_k|^2$ we have Parseval equality.
+}
+
+\theorem{Riesz–Fischer theorem (reversed Parseval equality)}{
+Let $H$ be a Hilbert space, $\{\Phi_k\}_{k=1}^\infty\subset H$ be an orthonormal system and $\{c_k\}_{k=1}^\infty\in\ell^2$. Then
+\begin{enumerate}
+    \item $\sum_{k=1}^\infty c_k\Phi_k$ converges in $H$ (in other words $\exists f\in H$ such that $f=\lim_{n\to\infty}\sum_{k=1}^n c_k\Phi_k$),
+    \item $c_k=\left(f,\Phi_k\right)$,
+    \item $\sum_{k=1}^\infty|c_k|^2=||f||_H^2$.
+\end{enumerate}
+}
+
+\proof{
+Basically, we want to show that for $\bm c\in\ell^2,\;\exists f\in H$ such, that $c_k=\left(f,\Phi_k\right)$ and $||f-s_n||^2_H\to 0$ where $s_n=\sum_{k=1}^n c_k\Phi_k$. However $s_n$ is Cauchy sequence\footnote{$s_n$ is Cauchy sequence $\Leftrightarrow$ $\forall\epsilon>0,\;\exists n_0,\;\forall m,n>n_0:|s_m-s_n|<\epsilon$.}, becasue
+\[
+    ||s_{n+p}-s_n||^2_H=\Big|\Big|\sum_{k=n+1}^{n+p} c_k\Phi_k\Big|\Big|^2_H=\sum_{k=n+1}^{n+p}|c_k|^2<\epsilon
+\]
+and $H$ is also a Banach space, hence $s_n$ converges to $f\in H$. Now we will show that $c_k=\left(f,\Phi_k\right)$. But
+\[
+    |c_k-\left(f,\Phi_k\right)|=|\left(s_n,\Phi_k\right)-\left(f,\Phi_k\right)|=|\left(s_n-f,\Phi_k\right)|\leq||s_n-f||_H||\Phi_k||_H=||s_n-f||_H\to 0,
+\]
+where we used Cauchy-Schwarz inequality and orthonormality of $\{\Phi_k\}_{k=1}^\infty$. Now we have all the requirements for the Parseval equality, hence third statement holds.
+}
+
+\newpage
+\theorem{Characteristic of complete orthonormal system}{
+Let $H$ be a Hilbert space and $\{\Phi_k\}_{k=1}^\infty\subset H$ an orthonormal system. Then following statements are equivalent
+\begin{enumerate}
+    \item $\{\Phi_k\}_{k=1}^\infty$ is complete system,
+    \item $\forall f\in H:\;||f-s_n||_H\to 0$ where $s_n:=\sum_{k=1}^\infty c_k\Phi_k$,
+    \item $\forall f\in H:\;\sum_{k=1}^\infty|c_k|^2=||f||_H^2$,
+    \item span $\{\Phi_1,\ldots,\Phi_n\}$ for $n\in\N$ is dense in $H$,
+\end{enumerate}
+where $c_k:=\left(f,\Phi_k\right)$.
+}
+
+\proof{
+First let's prove $1.\Rightarrow 2.$: We already disscused that $s_n$ is Cauchy sequence in Banach space, hence $||s_n-z||_H\to 0$.. However
+\[
+    \left(z,\Phi_k\right)=\lim_{n\to\infty}\left(s_n,\Phi_k\right)=c_k=\left(f,\Phi_k\right)\quad\forall k\in\N
+\]
+therefore $\left(z-f,\Phi_k\right)=0$ and because of system $\{\Phi_k\}_{k=1}^\infty$ is complete we have $f=z$, what means $||s_n-f||_H\to 0$. $2.\Leftrightarrow 3.$ we have from Parselval equality. Now we will show that $3.\Rightarrow 1.$: Consider $f\in H$ such, that $c_k=\left(f,\Phi_k\right)=0,\forall k\in\N$. Hence from Parseval equality we have $||f||_H=0$ and $\{\Phi_k\}_{k=1}^\infty$ is complete system. Statement $2.\Rightarrow 4.$ is true, because $s_n$ is a countable linear combination of elemetns from $\{\Phi_k\}_{k=1}^\infty$ and if $\forall f\in H:\;||f-s_n||_H\to 0$ then $\{\Phi_k\}_{k=1}^\infty$ has to be dense in $H$. Finally $4.\Rightarrow 1.$: Let $z\in H$ be such that $\left(z,\Phi_k\right),\forall k\in\N$ and we want to show that $z=0$. From our assumption there exists $\{t_n\}_{n=1}^\infty,\;t_n\in\text{span}\{\Phi_1,\ldots,\Phi_n\}$ for given $n\in\N$ such that $t_n\to z$ in $H$. Therefore
+\[
+    ||z||^2_H=\left(z,z\right)=\left(\lim_{n\to\infty}t_n,z\right)=\lim_{n\to\infty}\left(t_n,z\right)=0.
+\]
+}
+
+\theorem{Corollary}{
+    Every Hilbert space in which exists a complete ortonormal system is separable.\\
+}
+\proof{
+    From charakteristic of complete orthonormal systems, statement $1.\Rightarrow 4.$. As a countable, dense subset of $H$ we can take linear combinations of $\{\Phi_k\}_{k=1}^\infty$ with rational coeficients.
+}
+
+\theorem{Theroem (On the existence of a complete system in a separable Hilbert space)}{
+    In every separable Hilbert space there exists a complete ortonormal system.\\
+}
+\proof{
+    We will distinguish two cases. First, let $H$ be Hilbert's space of finite dimension. Then just take any orthonormal basis. Now let $H$ have an infinite dimension. Due to the assumed separability, there is a large dense subset in it. Let's arrange its elements in the sequence $\{x_j\}_{j=1}^\infty$ and remove all trivial and lineary dependent elements. Complete ortonormal system will be now constructed by using Gram-Schmidt ortogonalization process. Let $\Phi_1:=x_j/||x_j||_H$. Next we will take
+    \[
+        y_2=x_2-\left(x_2,\Phi_1\right)\Phi_1\quad\text{and}\quad \Phi_2=\frac{y_2}{||y_2||_H}.
+    \]
+    Rest of elemetns will be constructed by indution.
+    \[
+        y_{n+1}=x_{n+1}-\sum_{j=1}^n\left(x_{n+1},\Phi_j\right)\Phi_j\quad\text{and}\quad \Phi_{n+1}=\frac{y_{n+1}}{||y_{n+1}||_H}.
+    \]
+    We can see that $\left(x_1,x_2,\ldots,x_n\right)\subset\text{span}\left(\Phi_1,\Phi_2,\ldots,\Phi_n\right)$, hecne $\text{span}\left(\Phi_1,\Phi_2,\ldots,\Phi_n\right)$ is dense in $H$ and orthonormal. Therefore by statement $4.\Rightarrow 1.$ of theorem "characteristic of complete orthonormal system" $\{\Phi_k\}_{k=1}^\infty$ is also complete.
+}
+
+\problem{Solved problem}{
+    Consider a Hilert space $\ell^2$ defined as
+    \[
+        \ell^2:=\Big\{\{x_k\}_{k=1}^\infty\subset\R\;\Big|\sum_{k=1}^\infty x_k<\infty\Big\},
+    \]
+    with an inner product $\left(\{x_k\}_{k=1}^\infty,\{y_k\}_{k=1}^\infty\right)=\sum_{k=1}^\infty x_ky_k$. For every $n\in\N$ we define $\Phi_n\in\ell^2$ by enumeration as $\left(\Phi_n\right)_k=\delta_{nk}$. Then system $\{\Phi_n\}_{n=1}^\infty$ is a complete ortonormal system in $\ell^2$. Therefore $\ell^2$ is also separable.
+}
+
+\definition{Definition}{
+    Let $(P_1,\rho_1)$, $(P_2,\rho_2)$ be metric spaces and $I:P_1\to P_2$ a map between them. We say that $I$ is {\color{darkgreen}\emph{isometry}} if $\forall x,y\in P_1:\rho_2\left(I(x),I(y)\right)=\rho_1(x,y)$. Furthemore, we say that spaces $(P_1,\rho_1)$, $(P_2,\rho_2)$ are {\color{darkgreen}\emph{isometric}}, if there exists an isometry mapping $P_1$ onto $P_2$.
+}
+
+Isometries of the plane are linear transformations preserving length such as rotation, translation or reflection.\\
+
+\theorem{Corollary}{
+    An isometry is always one-to-one by the following argument
+    \[
+        \forall x,y\in P_1,x\neq y\Rightarrow\rho_1(x,y)\neq 0\Rightarrow\rho_2(I(x),I(y))\neq 0\Rightarrow I(x)\neq I(y).
+    \]
+    Isometry $I$ is always "one-to-one" and if $(P_1,\rho_1)$, $(P_2,\rho_2)$ are isometric, it is also "onto". Then exists $I^{-1}:P_2\to P_1$ mapping $P_2$ onto $P_1$.
+}
+
+\theorem{Theroem (On the relation of separable Hilbert spaces and $\ell^2$)}{
+    Every infinitely dimensional separable Hilbert space is isometric to $\ell^2$.\\
+}
+\proof{
+    We know that in the separable Hilbert space $H$ there exists a complete orthonormal system. Let $I$ be a map that assigns to every $f\in H$ a sequence of its Fourier coefficients $\{c_k\}_{k=1}^\infty$ with respect to the given system. Such $I$ is defined on the whole $H$, and is mapping whole $H$ onto $\ell^2$ (if $f\in H$ is finite we have that $\sum_{k=1}^\infty|c_k|^2<\infty$). Therefore, from Parseval's equality
+    \[
+        ||f||^2_H=\sum_{k=1}^\infty|c_k|^2=||\{c_k\}_{k=1}^\infty||_{\ell^2}=||I(f)||^2_{\ell^2}.
+    \]
+    Finally, because of linearity of the inner product we have
+    \[
+        \forall  f,g\in H:||I(f)-I(g)||^2_{\ell^2}=||I(f-g)||^2_{\ell^2}=||f-g||^2_H.
+    \]
+}
+
+\subsection{Orthogonal projections of Hilbert space}
+
+\definition{Definition}{
+    We say that $M$ is a {\color{darkgreen}\emph{closed subspace}} of $H$ if
+    \begin{enumerate}
+        \item $M\subset H$
+        \item $\forall\alpha,\beta\in\C,\;\forall u,v\in M:\alpha u+\beta v\in M$
+        \item $\{u_n\}_{n=1}^\infty\subset M$ and $||u_n-u||_H\to 0\,\;\Rightarrow u\in M$
+    \end{enumerate}
+}
+
+\problem{Solved problem}{
+    Let $\Omega\subset\R^N$ be a non-empty open set such, that $\lambda_N(\Omega)<\infty$. Define set
+    \[
+        M=\Big\{f\in L^2(\Omega)\Big|\int_\Omega f\d x\Big\},
+    \]
+    then $M$ is a subspace $L^2(\Omega)$. Furthemore if $\{f_n\}_{n=1}^\infty\subset M$ and $f_n\to f$ in $L^2(\Omega)$ we have from Holder inequality
+    \[
+    \begin{split}
+        \Big|\int_\Omega f\d x\Big|&\leq \Big|\int_\Omega(f-f_n)\d x\Big|+\Big|\int_\Omega f_n\d x\Big|=\Big|\int_\Omega(f-f_n)\d x\Big|\leq \int_\Omega|f-f_n|\d x\\
+        &\leq ||f-f_n||_{L^2(\Omega)}|1||_{L^2(\Omega)}\to 0.
+    \end{split}
+    \]
+    Hence $f\in M$ and $M$ is closed subspace of $L^2(\Omega)$.
+}
+
+\theorem{Theorem (About orthogonal projection)}{
+    Let $H$ be a Hilber space and $M$ it's closed subspace.\\ Then $\forall f\in M,\;\exists!f_M\in M:||f-f_M||_H=\inf_{z\in M}||f-z||_H$. We define map $P:H\to M$ such, that $P(f)=f_M$. Then following holds:
+    \begin{enumerate}
+        \item $P(H)=M$
+        \item $P\circ P=P$
+        \item for every $z\in M$ holds $z\in P(f)\Leftrightarrow\left(f-z,y\right)_H=0,\forall y\in M$
+        \item $\forall f\in H:||f||_H^2=||P(f)||_H^2+||f-P(f)||_H^2$
+    \end{enumerate}
+}
+\proof{
+
+}
+
+\end{document}
