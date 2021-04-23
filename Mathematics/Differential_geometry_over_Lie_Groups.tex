@@ -1,0 +1,110 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[top = 2cm, bottom = 2cm, left = 2cm, right = 2cm]{geometry}
+
+% Mathematical packages
+\usepackage{amsmath, amssymb, amsfonts, amsthm}
+\usepackage{bm}
+
+% Graphical packages
+\usepackage{graphicx}
+\graphicspath{{graphics/}}
+\usepackage{xcolor}
+\definecolor{darkgreen}{rgb}{0.04, 0.30, 0.00}
+
+% Fonts
+\usepackage{libertine}
+\usepackage[libertine]{newtxmath}
+%\usepackage[utf8]{inputenc}
+
+% Endnotes, enumeration
+\usepackage{endnotes}
+\usepackage{enumitem}
+
+% Parts, sections, subsections ...
+\usepackage{titlesec}
+\titleformat{\section}{\normalfont\huge\bfseries}{Chapter \thesection}{-5em}{\Huge\newline}
+
+% fbox
+
+% Theorem, definition, lemma, postulate ....
+\newcounter{numtheorem}
+
+\newcommand{\theorem}[2]{
+    \refstepcounter{numtheorem}
+    \color{blue}
+    \noindent\fbox{\textbf{1.\thenumtheorem }} \textbf{#1:}
+    \color{black}
+    #2\newline
+}
+
+\newcommand{\definition}[2]{
+    \refstepcounter{numtheorem}
+    \color{darkgreen}
+    \noindent\fbox{\textbf{1.\thenumtheorem }} \textbf{#1:}
+    \color{black}
+    #2\newline
+}
+
+\newcommand{\remark}[2]{
+    \refstepcounter{numtheorem}
+    \color{orange}
+    \noindent\fbox{\textbf{1.\thenumtheorem }} \textbf{#1:}
+    \color{black}
+    #2\newline
+}
+
+\newcommand{\problem}[2]{
+    \refstepcounter{numtheorem}
+    \color{darkred}
+    \noindent\fbox{\textbf{1.\thenumtheorem }} \textbf{#1:}
+    \color{black}
+    #2\newline
+}
+
+\newcommand{\exmpl}[2]{
+    \refstepcounter{numtheorem}
+    \color{red}
+    \noindent\fbox{\textbf{1.\thenumtheorem }} \textbf{#1:}
+    \color{black}
+    #2\newline
+}
+
+\renewcommand{\proof}[1]{%
+    \noindent\textbf{Proof:}~#1%
+    \newline%
+    \strut\hfill%
+    $\square$%
+    \newline%
+}%
+
+\renewcommand\d{\mathrm d}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+
+\setlength\parindent{0pt}
+
+\begin{document}
+
+\tableofcontents
+~\newpage
+
+\section{Lie Groups}
+
+\definition{Definition}{
+    A \textbf{Lie group} $G$ is a group which is at the same time a differentiable manifold such that the group operations:
+    \[
+        G\times G\xrightarrow{\text{into}}G\qquad\text{i.e.}\qquad(x,y)\longmapsto x\,\cdot\,y
+    \]
+    and
+    \[
+        G\longrightarrow G\qquad\text{i.e.}\qquad x\longmapsto x^{-1}
+    \]
+    are $C^\infty$-maps.
+}
+
+\section{Differetial geometry over the Lie Groups}
+
+\end{document}

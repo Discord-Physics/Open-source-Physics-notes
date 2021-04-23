@@ -45,6 +45,14 @@
     #2\newline
 }
 
+\newcommand{\note}[2]{
+    \refstepcounter{numtheorem}
+    \color{gray}
+    \noindent\fbox{\textbf{1.\thenumtheorem }} \textbf{#1:}
+    \color{black}
+    #2\newline
+}
+
 \newcommand{\remark}[2]{
     \refstepcounter{numtheorem}
     \color{orange}
@@ -55,7 +63,7 @@
 
 \newcommand{\problem}[2]{
     \refstepcounter{numtheorem}
-    \color{red}
+    \color{darkred}
     \noindent\fbox{\textbf{1.\thenumtheorem }} \textbf{#1:}
     \color{black}
     #2\newline
@@ -63,7 +71,7 @@
 
 \newcommand{\exmpl}[2]{
     \refstepcounter{numtheorem}
-    \color{green}
+    \color{red}
     \noindent\fbox{\textbf{1.\thenumtheorem }} \textbf{#1:}
     \color{black}
     #2\newline
@@ -230,7 +238,11 @@ We denote this topological place $(X, \overline\tau)$.
 }
 
 \definition{Definition}{
-    The set of accumulation points of $A$, denoted by $A'$ is called the \textbf{derived set} of $A$.
+    The set of all limit points of $A$, denoted by $A'$ is called the \textbf{derived set} of $A$.
+}
+
+\exmpl{Example}{
+    Discrete topology where adherent points are not limit points.
 }
 
 \subsection{Closure}
@@ -257,6 +269,10 @@ We denote this topological place $(X, \overline\tau)$.
 
 \proof{
     Because $\overline A$ is the intersection of all closed supersets of $A$ we have $A\subset\overline A$. But if $A$ is closed and $\overline A$ is the smallest closed superset of $A$ then $\overline A\subset A$. Therefore $A=\overline A$.
+}
+
+\exmpl{Example}{
+    The empty set $\emptyset$ is closed, since there is no point in $\empty$ which is not an accumulation point. And as every accumulation point is also adherent we have $\overline\emptyset=\emptyset$.
 }
 
 \subsection{Interior}
@@ -314,7 +330,11 @@ We denote this topological place $(X, \overline\tau)$.
 }
 
 \theorem{Theorem}{
-    Let $(X,\{\tau\})$ be a topological space and $A\subset X$. The boundary of a set $A$ is given by $\partial A=\overline A\backslash\mathring A$. Furthermore $\overline A=\mathring A\cup\partial A$ and  Furthermore $A=\partial A\Leftrightarrow\mathring A=\emptyset$.
+    Let $(X,\{\tau\})$ be a topological space and $A\subset X$. The boundary of a set $A$ is given by $\partial A=\overline A\backslash\mathring A$. Furthermore $\overline A=\mathring A\cup\partial A$ and $A=\partial A\Leftrightarrow\mathring A=\emptyset$.
+}
+
+\exmpl{Example}{
+    Consider the usual topology on $\R$ and the set $\Q$ of rational numbers. Every real number $x\in\R$ is an adherent point of $\Q$, {\color{red}WHY?}. Moreover, $\mathring\Q=\left(C_\R\Q\right)\mathring{}=\emptyset$, since every open subset of $\R$ contains both rational and irrational points, hence there are no interior points of $\Q$ and $C_\R\Q$, furhtemore $\partial\Q=\overline\Q\backslash\mathring\Q=\R$.
 }
 
 \subsection{Continuous maps}
@@ -367,7 +387,166 @@ We denote this topological place $(X, \overline\tau)$.
 }
 
 \definition{Definition}{
-    A topological space $(X,\tau)$ is \textbf{compact}, if it is a Hausdorff space and if every open cover of $X$ has a finite subcover.
+    A topological space $(X,\tau)$ is \textbf{compact}, if every open cover of $X$ has a finite subcover.
 }
+
+\definition{Definition}{
+    Let $(X,\tau)$ be a topological space. A set $S\subset X$ is \textbf{compact}, if every open cover of $S$ has a finite subcover.
+}
+
+\note{Note}{
+    Some authors require that a compact topological space be Hausdorff as well, and use the term quasi-compact to refer to a non-Hausdorff compact space. The modern convention seems to be to use compact in the sense given here.
+}
+
+\theorem{A compact subset of a Hausdorff space is closed}{
+    Suppose $X$ is a Hausdorff space. If $K$ is a compact subset of $X$, then $K$ is a compact set in $X$.
+}
+
+\proof{
+    Let $X$ be a Hausdorff space, and $S\subset X$ a compact subset. To show that $S$ is closed, its enough to show that the complement $U=C_XS=X\backslash S$ is open. For $U$ to be open is sufficient to demonstrate that for each $x\in U$, there exists an open set $V$ with $x\in V$ and $V\subset U$.\\
+
+    Fix $x\in U$. For each $y\in S$, using the definition of Hausdorff space, we can choose disjoint open sets $A$ and $B$ with $x\in A(y)$ and $y\in B(y)$.\\
+
+    Since every $y\in S$ is an element of $B(y)$, the family $\{B(y)\,|\,y\in S\}$ is an open cover of $S$. Since $S$ is compact, this open cover has a finite subcover. Therefore we can choose $y_1,\ldost,y_n\in S$ such that $S\subset B(y_1)\cup\dots\cup B(y_n)$.\\
+
+    Notice that $A(y_1)\cap\dots\cap A(y_n)$, being a finite intersection of open sets, is open, and contains $x$. Call this neighborhood of $x$ by the name $V$. All we need to do is show that $V\subset U$.\\
+
+    For any point $z\in S$, we have $z\in B(y_1)\cup\dots\cup B(y_n)$, and therefore $z\in B(y_k)$ for some $k$. Since $A(y_k)$ and $B(y_k)$ are disjoint, $z\notin A(y_k)$, and therefore $z\notin A(y_1)\cap\dots\cap A(y_n)=V$. Thus $S$ is disjoint from $V$, and $V$ is contained in $U$.
+}
+
+\remark{Remark}{
+    This theorem is giving us closed intervals as we know them in $\R$ to use in all Hausdorff spaces. But this time closed means compact.
+}
+
+\definition{Definition}{
+    Lt $\{X,\tau\}$ be a topological space. A family $A=\{A_i\}_{i\in I}$ of subsets of a set $X$ is said to have the \textbf{finite intersection property}, if every finite subfamily $\{A_1,A_2,\ldots.A_n\}$ of $A$ satisifes $\bigcap_{i=1}^nA_i\neq\emptyset$.
+}
+
+\exmpl{Example}{
+    Consider $\R$ as a topological space with usual topology, then the family of closed intervals\\ $A=\big\{\left[n+\frac{1}{n},n+1-\frac{1}{n}\right]\,\big|\,n\in\N\big\}$ does not have the finite intersection property, howerer for $n\to\infty$ the intervals will touch, hence intersect.
+}
+
+\theorem{Theorem}{
+    A topological space $\{X,\tau\}$ is compact if and only if for every family $A=\{A_i\}_{i\in I}$ of closed subsets of $X$, where $A$ has the finite intersection property, $\bigcap_{i=1}^nA_i=\emptyset$.
+}
+
+\proof{
+    Let $\{X,\tau\}$ be a topological space and assume that the intersection of any family of closed subsets having the finite intersection property is non-empty. Let $\{F_i\}_{i\in I}$ be some open cover of $X$ and assume that it has no finite subcover. Hence for each finite $J\subseteq I$ there is some $x\in X$ such that $x\notin \bigcup_{i\in J}F_i$. Equivalently, for each finite $J\subseteq I$ there is some $x\in\bigcap_{i\in J}C_XF_i$. Hence the family $\{C_XF_i\}_{i\in I}$ is a family of closed subsets with the finite intersection property. It follows that there is some $x\in\bigcap_{i\in I}C_XF_i$, i.e., $x\notin \bigcup_{i\in I}F_i$, contradicting that $\{F_i\}_{i\in I}$ is a cover of $X$. We conclude that $\{F_i\}_{i\in I}$ must have a finite subcover, so $X$ is compact.\\
+
+    The proof in the other direction is analogous. Conversely, assume that $X$ is compact and let $\{F_i\}_{i\in I}$ be some family of closed subsets with the finite intersection property. Assume that $\bigcap_{i\in I}F_i$ is empty. Then $\{C_XF_i\}_{i\in I}$ is an open cover of $X$. By compactness, it has a finite subcover, so $\bigcup_{i\in J}C_XF_i=X$ for some finite $J\subseteq I$. But then $\bigcup_{i\in J}F_i=\emptyset$, contradicting that $\{F_i\}_{i\in I}$ has the finite intersection property. We conclude that $\bigcap_{i\in I}F_i\new\emptyset$, i.e .
+}
+
+\remark{Remark}{
+    One can understnad this theorem as every family $A$ has to have also the "infinite" intersection property.
+}
+
+\remark{Remark}{
+    The above theorem is essentially the definition of a compact space rewritten using de Morgan’s laws. The usual definition of a compact space is based on open sets and unions. The above characterization, on the other hand, is written using closed sets and intersections.
+}
+
+\exmpl{Example}{
+    Consider $\R$ as a topological space with usual topology, then the family of open intervals \\ $A=\big\{\left(n-\frac{1}{n},n+1+\frac{1}{n}\right)\,\big|\,n\in\N\big\}$ has the finite intersection property, howerer for $n\to\infty$ the intervals will stop intersecting, hence $\R$ is not compact.
+}
+
+\theorem{A closed subset in a compact space is compact}{
+    Suppose $\{X,\tau\}$ is a topological space. Let $C\subset K\subset X$ where $C$ is closed relative to $K$ and $K$ is compact. Then $C$ is compact.
+}
+
+\proof{
+    Suppose $C$ is not compact. Then there is a cover of $C$ which has no finite subcover say, call this cover $S$. Define $M=X\backslash C$. Then $M\cup S$ is a cover of $K$. But then clearly, this cover has no finite subcover hence $K$ is not compact.
+}
+
+\definition{Definition}{
+    Let $\{\tau,X\}$ be a topological space. Space $X$ is called \textbf{locally compact} if every point $x$ of $X$ has a compact neighbourhood, i.e., there exists an open set $U\subset X$ and a compact set $K\subset X$, such that $x\in U\subseteq K$.
+}
+
+\definition{Definition}{
+    Let $\{\tau,X\}$ be a topological space. A \textbf{refinement} of a cover of a space $X$ is a new cover of the same space such that every set in the new cover is a subset of some set in the old cover. I.e., the cover $V=\{V_\beta:\beta\in B\}$ is a refinement of the cover $U=\{U_\alpha:\alpha\in A\}$ if and only if, for any $V_\beta$ in $V$, there exists some $U_\alpha$ in $U$ such that $V_\beta\subseteq U_\alpha$.
+}
+
+\definition{Definition}{
+    Let $\{\tau,X\}$ be a topological space. An open cover of a space $X$ is \textbf{locally finite} if every point of the space has a neighborhood that intersects only finitely many sets in the cover. I.e., $U=\{U_\alpha:\alpha\in A\}$ is locally finite if and only if, for any $x\in X$, there exists some neighbourhood $V(x)$ of $x$ such that the set
+    \[
+        \left\{\alpha\in A:U_\alpha\cap V(x)\neq\emptyset\right\}
+    \]
+    is finite.
+}
+
+\definition{Definition}{
+    A topological space $\{\tau,X\}$ is said to be \textbf{paracompact} if every open cover has a locally finite open refinement.
+}
+
+\definition{Definition}{
+    Let $\{\tau,X\}$ be a topological space. $X$ is said to be \textbf{disconnected} if it is the union of at least two disjoint non-empty open sets. Otherwise, $X$ is said to be \textbf{connected}.
+}
+
+\theorem{Theorem}{
+    A topological space $\{\tau,X\}$ is connected if the only subsets of $X$ which are both open and closed are $\emptyset$ and $X$.
+}
+
+\proof{
+    The proof is done by contradiction. Let $A\subset X$ be both open and closed, but $A\neq X$ and $A\neq\emptyset$. Then as $A$ is open, there exists a set $B$ such that $B\notin\tau$ ($B$ is closed) and $A\cup B=X$. Hence $B=X\backslash A$. However as $A$ is also closed, there exists a set $C$ such that $C\in\tau$ ($C$ is opne) and $A\cup C=X$. Therefore $C=X\backslash A$. One can see that $B=C$ and we arrive at contradiction $B\notin\tau$ while $C\in\tau$.
+}
+
+\definition{Definition}{
+    Let $\{\tau,X\}$ be a topological space. The union $A$ of all connected subsets of $X$ containing a point $x\in X$ is a connected subset of $X$. Then, $A$ is called the \textbf{maximal connected} subset containing $x$ (or \textbf{componet} of $X$ containing $x$), denoted by $C(x)$.
+}
+
+\definition{Definition}{
+    Let $\{\tau,X\}$ be a topological space. A \textbf{path} from a point $x\in X$ to a point $y\in X$ in a topological space $X$ is a continuous function $f$ from the unit interval $[0,1]$ to $X$ with $f(0)=x$ and $f(1)=y$.
+}
+
+\definition{Definition}{
+    Let $\{\tau,X\}$ be a topological space. A \textbf{path-component} of $X$ is an equivalence class of $X$ under the equivalence relation which makes $x$ equivalent to $y$ if there is a path from $x$ to $y$.
+}
+
+\definition{Definition}{
+    Let $\{\tau,X\}$ be a topological space. The space $X$ is said to be \textbf{path-connected} (or pathwise connected or 0-connected) if there is exactly one path-component, i.e. if there is a path joining any two points in $X$.
+}
+
+\definition{Definition}{
+    Let $\{\tau,X\}$ be a topological space. A space $X$ is said to be \textbf{arc-connected} or arcwise connected if any two distinct points can be joined by an arc, which by definition is a path $f:[0,1]\to X$ that is also a topological embedding. Explicitly, a path $f:[0,1]\to X$ is called an arc if the surjective map $f:[0,1]\to\operatorname{Im}f$ is a homeomorphism, where its image $\operatorname{Im}f:=f([0,1])$ is endowed with the subspace topology induced on it by $X$.
+}
+
+\exmpl{Example}{
+    Let $X$ be a finite set with topology $\{\tau,X\}$ that is path-connected. However such space is not arc-connected because there can't be a homeomorphism from an uncountable interval $[0,1]$ to a finite set $X$.
+}
+
+\definition{Definition}{
+    Let $\{\tau,X\}$ be a topological space. A space is called \textbf{totally disconnected} if its only non-empty  connected subsets consists of single points, i.e. $C(x)=\{x\}$.
+}
+
+\theorem{Theorem}{
+    Let $\{\tau_i,X_i\},\,i=1,2$ be topological space and let $f:X_1\to X_2$ be a continuous map. If $A\subseteq X_1$ and $A$ is connected, then $f(A)$ is connected.
+}
+
+\proof{
+}
+
+\theorem{Theorem}{
+    Let $\{\tau_i,X_i\},\,i=1,2$ be topological space and let $f:X_1\to X_2$ be a continuous map. If $A\subseteq X_1$ and $A$ is compact, then $f(A)$ is compact.
+}
+
+\proof{
+}
+
+\theorem{Theorem}{
+    Let $\{\tau_i,X_i\},\,i=1,2,3$ be topological space and let $f:X_1\to X_2$ and $g:X_2\to X_3$ be continuous maps. Then the map $g\circ f:X_1\to X_3$ is continuous.
+}
+
+\proof{
+}
+
+\theorem{Theorem}{
+    If a topological space $\{\tau,X\}$ is path-connected, then it is also connected.
+}
+
+\proof{
+    We do this proof by contradiction. Suppose $X$ is not connected. Then, there exist nonempty disjoint open subsets $U,V\subseteq X$ such that $X=U\cup V$. Pick a point $x\in U$ and a point $y\in V$.\\
+
+    By assumption, there exists a continuous function $f:[0,1]\to X$ such that $f(0)=x$ and $f(1)=y$. Consider the subsets $f^{-1}(U)$ and $f^{-1}(V)$. These are disjoint in $[0,1]$ and their union is $[0,1]$. By the continuity of $f$, they are both open in $[0,1]$. Finally, since $0\in f^{-1}(U)$ and $1\in f^{-1}(V)$, they are both nonempty. We have thus expressed $[0,1]$ as a union of two disjoint nonempty open subsets, a contradiction to the fact that $[0,1]$ is connected. This completes the proof.
+}
+
+simply connected
 
 \end{document}
